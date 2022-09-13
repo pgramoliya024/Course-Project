@@ -6,6 +6,8 @@ const port = process.env.PORT || 3000;
 
 const errorController = require('./controllers/error');
 
+const MongoConnect = require('./util/database');
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -22,6 +24,10 @@ app.use(shopRoutes)
 
 app.use(errorController.get404);
 
-app.listen(port, () => {
-    console.log(` listening to port ${port}`)
-});
+MongoConnect(client => {
+    console.log(client);
+    app.listen(port, () => {
+        console.log(` listening to port ${port}`)
+    });
+})
+
